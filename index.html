@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VVB Wave Animations Matrix</title>
   
-  <!-- 配置並載入 MathJax 3 (SVG 渲染引擎) -->
+  <!-- 配置 MathJax 3 (SVG 渲染引擎) -->
   <script>
     window.MathJax = {
       tex: {
@@ -14,6 +14,13 @@
       },
       svg: {
         fontCache: 'global'
+      },
+      startup: {
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            console.log('MathJax initial typesetting complete');
+          });
+        }
       }
     };
   </script>
@@ -71,18 +78,18 @@
       align-items: center;
     }
 
+    /* 針對 iOS Safari 最佳化的標題樣式 */
     .matrix-title {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       text-align: center;
       margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      min-height: 2.5em;
+      width: 100%;
+      min-height: 2.8em;
+      display: block; /* 改為 block 避免 flex 在 iOS 上壓垮 SVG 寬度 */
+      overflow-x: auto; /* 預防手機版字體過大時撐爆頁面 */
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* Grid 佈局：將側欄欄寬定為 65px，確保 ℓ = -1 不換行 */
     .animation-grid {
       display: grid;
       grid-template-columns: 45px 65px repeat(3, 1fr) 38px;
@@ -143,7 +150,6 @@
     video::-webkit-media-controls { display: none !important; }
     video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none !important; }
 
-    /* 圖形右下角 J 標籤 */
     .j-overlay {
       position: absolute;
       bottom: 4px;
@@ -160,7 +166,6 @@
       z-index: 10;
     }
 
-    /* 左下角 Scale 標籤 */
     .scale-overlay {
       position: absolute;
       bottom: 22px;
@@ -252,7 +257,7 @@
   <!-- ==================== LEFT MATRIX ==================== -->
   <div class="matrix-wrapper">
     <div class="matrix-title">
-      $\text{Re}[\tilde{\mathcal{A}}_{\sigma,\ell,\sigma',\ell'}^z(\boldsymbol{q}_\parallel, t; \alpha, \beta)]$
+      $$\text{Re}[\tilde{\mathcal{A}}_{\sigma,\ell,\sigma',\ell'}^z(\boldsymbol{q}_\parallel, t; \alpha, \beta)]$$
     </div>
 
     <div class="animation-grid">
@@ -280,7 +285,6 @@
       </div>
 
       <div class="video-cell" style="grid-column: 3; grid-row: 3;">
-        <!-- 已修正檔名為資料夾中的實際檔案 l_-1_lp_0_longitudinal.mp4 -->
         <video src="l_-1_lp_0_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="scale-overlay">$0.1Q_c$</div>
         <div class="j-overlay">$\bar{J} = -1/2$</div>
@@ -335,7 +339,7 @@
   <!-- ==================== RIGHT MATRIX ==================== -->
   <div class="matrix-wrapper">
     <div class="matrix-title">
-      $\text{Re}[\tilde{M}_{\sigma,\ell,\sigma',\ell'}^{S,\boldsymbol{Q}}(\boldsymbol{Q}, t; \alpha, \beta)]$
+      $$\text{Re}[\tilde{M}_{\sigma,\ell,\sigma',\ell'}^{S,\boldsymbol{Q}}(\boldsymbol{Q}, t; \alpha, \beta)]$$
     </div>
 
     <div class="animation-grid">
@@ -416,14 +420,17 @@
 </div>
 
 <script>
-  // 確保瀏覽器自動播放所有影片
   document.addEventListener("DOMContentLoaded", () => {
+    // 1. 強制 iPhone Safari 自動播放影片
     const videos = document.querySelectorAll('video');
     videos.forEach(v => {
-      v.play().catch(() => {
-        // 防止瀏覽器擋下靜音自動播放
-      });
+      v.play().catch(() => {});
     });
+
+    // 2. 針對行動裝置 (iOS) 補強：DOM 載入後手動觸發一次 MathJax 重新排版
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise().catch((err) => console.log('MathJax typeset failed: ' + err.message));
+    }
   });
 </script>
 
