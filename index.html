@@ -77,12 +77,10 @@
       box-sizing: border-box;
     }
 
-    /* 統一的大網格佈局：
-       欄位：[σ (40px)] [ℓ (60px)] [左V1] [左V2] [左V3] [Colorbar1 (35px)] [右V1] [右V2] [右V3] [Colorbar2 (35px)]
-    */
+    /* 調整 grid-template-columns 的第一欄由 40px 放寬至 55px，防止 σ = 1 超出 */
     .combined-grid {
       display: grid;
-      grid-template-columns: 40px 60px repeat(3, 1fr) 35px repeat(3, 1fr) 35px;
+      grid-template-columns: 55px 60px repeat(3, 1fr) 35px repeat(3, 1fr) 35px;
       grid-template-rows: auto 32px 32px auto auto;
       gap: 2px;
       background-color: #ffffff;
@@ -96,6 +94,7 @@
       align-items: center;
       font-size: 1.15rem;
       white-space: nowrap;
+      overflow: hidden; /* 確保內容超出時不溢出邊界 */
     }
 
     .matrix-title {
@@ -252,7 +251,7 @@
       $$\text{Re}[\tilde{M}_{\sigma,\ell,\sigma',\ell'}^{S,\boldsymbol{Q}}(\boldsymbol{Q}, t; \alpha, \beta)]$$
     </div>
 
-    <!-- ROW 2: 灰色 σ' Banner (左跨欄 3-5，右跨欄 7-9) -->
+    <!-- ROW 2: 灰色 σ' Banner -->
     <div class="grid-cell grey-banner" style="grid-column: 3 / span 3; grid-row: 2;">
       $\sigma' = -1$
     </div>
@@ -260,27 +259,24 @@
       $\sigma' = -1$
     </div>
 
-    <!-- ROW 3: 藍色 ℓ' 標籤欄 (左右兩組共用) -->
-    <!-- 左側 ℓ' -->
+    <!-- ROW 3: 藍色 ℓ' 標籤欄 -->
     <div class="grid-cell blue-cell" style="grid-column: 3; grid-row: 3;">$\ell' = 0$</div>
     <div class="grid-cell blue-cell" style="grid-column: 4; grid-row: 3;">$\ell' = 1$</div>
     <div class="grid-cell blue-cell" style="grid-column: 5; grid-row: 3;">$\ell' = 2$</div>
-    <!-- 右側 ℓ' -->
+    
     <div class="grid-cell blue-cell" style="grid-column: 7; grid-row: 3;">$\ell' = 0$</div>
     <div class="grid-cell blue-cell" style="grid-column: 8; grid-row: 3;">$\ell' = 1$</div>
     <div class="grid-cell blue-cell" style="grid-column: 9; grid-row: 3;">$\ell' = 2$</div>
 
-    <!-- 最左側縱向 σ = 1 灰色 Banner (跨 Row 4-5) -->
+    <!-- 最左側縱向 σ = 1 灰色 Banner (擴寬欄位至 55px，防止文字溢出) -->
     <div class="grid-cell grey-banner" style="grid-column: 1; grid-row: 4 / span 2;">
       $\sigma = 1$
     </div>
 
     <!-- ROW 4: ℓ = -1 行 -->
-    <!-- 藍色 ℓ = -1 標籤 -->
     <div class="grid-cell blue-cell" style="grid-column: 2; grid-row: 4;">
       $\ell = -1$
     </div>
-    <!-- 左矩陣影片 -->
     <div class="video-cell" style="grid-column: 3; grid-row: 4;">
       <video src="l_-1_lp_0_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
       <div class="scale-overlay">$0.1Q_c$</div>
@@ -294,7 +290,6 @@
       <video src="l_-1_lp_2_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
       <div class="j-overlay">$1/2$</div>
     </div>
-    <!-- 右矩陣影片 -->
     <div class="video-cell" style="grid-column: 7; grid-row: 4;">
       <video src="gray_l1_-1_l2_0.mp4" autoplay muted loop playsinline webkit-playsinline></video>
       <div class="scale-overlay">$0.1Q_c$</div>
@@ -310,11 +305,9 @@
     </div>
 
     <!-- ROW 5: ℓ = 0 行 -->
-    <!-- 藍色 ℓ = 0 標籤 -->
     <div class="grid-cell blue-cell" style="grid-column: 2; grid-row: 5;">
       $\ell = 0$
     </div>
-    <!-- 左矩陣影片 -->
     <div class="video-cell" style="grid-column: 3; grid-row: 5;">
       <video src="l_0_lp_0_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
       <div class="j-overlay">$0$</div>
@@ -327,7 +320,6 @@
       <video src="l_0_lp_2_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
       <div class="j-overlay">$1$</div>
     </div>
-    <!-- 右矩陣影片 -->
     <div class="video-cell" style="grid-column: 7; grid-row: 5;">
       <video src="gray_l1_0_l2_0.mp4" autoplay muted loop playsinline webkit-playsinline></video>
       <div class="j-overlay">$0$</div>
@@ -341,7 +333,7 @@
       <div class="j-overlay">$1$</div>
     </div>
 
-    <!-- COLORBAR GREEN (左矩陣 Colorbar，跨 Row 4-5) -->
+    <!-- COLORBAR GREEN -->
     <div class="colorbar-wrapper" style="grid-column: 6; grid-row: 4 / span 2;">
       <div class="colorbar-tick">$1$</div>
       <div class="colorbar-graphic-green">
@@ -350,7 +342,7 @@
       <div class="colorbar-tick">$-1$</div>
     </div>
 
-    <!-- COLORBAR YELLOW (右矩陣 Colorbar，跨 Row 4-5) -->
+    <!-- COLORBAR YELLOW -->
     <div class="colorbar-wrapper" style="grid-column: 10; grid-row: 4 / span 2;">
       <div class="colorbar-tick">$1$</div>
       <div class="colorbar-graphic-yellow">
