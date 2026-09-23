@@ -280,18 +280,19 @@
       </div>
 
       <div class="video-cell" style="grid-column: 3; grid-row: 3;">
-        <video src="l_-1_lp_0_longitudinal.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <!-- 已將檔名修訂為您目錄中的實際檔案 (若為 lp_0 請補齊該影片) -->
+        <video src="l_-1_lp_-1_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="scale-overlay">$0.1Q_c$</div>
         <div class="j-overlay">$\bar{J} = -1/2$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 4; grid-row: 3;">
-        <video src="l_-1_lp_1_longitudinal.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="l_-1_lp_1_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$0$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 5; grid-row: 3;">
-        <video src="l_-1_lp_2_longitudinal.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="l_-1_lp_2_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$1/2$</div>
       </div>
 
@@ -301,17 +302,17 @@
       </div>
 
       <div class="video-cell" style="grid-column: 3; grid-row: 4;">
-        <video src="l_0_lp_0_longitudinal.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="l_0_lp_0_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$0$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 4; grid-row: 4;">
-        <video src="l_0_lp_1_longitudinal.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="l_0_lp_1_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$1/2$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 5; grid-row: 4;">
-        <video src="l_0_lp_2_longitudinal.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="l_0_lp_2_longitudinal.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$1$</div>
       </div>
 
@@ -362,18 +363,18 @@
       </div>
 
       <div class="video-cell" style="grid-column: 3; grid-row: 3;">
-        <video src="gray_l1_-1_l2_0.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="gray_l1_-1_l2_0.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="scale-overlay">$0.1Q_c$</div>
         <div class="j-overlay">$\bar{J} = -1/2$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 4; grid-row: 3;">
-        <video src="gray_l1_-1_l2_1.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="gray_l1_-1_l2_1.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$0$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 5; grid-row: 3;">
-        <video src="gray_l1_-1_l2_2.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="gray_l1_-1_l2_2.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$1/2$</div>
       </div>
 
@@ -383,17 +384,17 @@
       </div>
 
       <div class="video-cell" style="grid-column: 3; grid-row: 4;">
-        <video src="gray_l1_0_l2_0.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="gray_l1_0_l2_0.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$0$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 4; grid-row: 4;">
-        <video src="gray_l1_0_l2_1.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="gray_l1_0_l2_1.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$1/2$</div>
       </div>
 
       <div class="video-cell" style="grid-column: 5; grid-row: 4;">
-        <video src="gray_l1_0_l2_2.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
+        <video src="gray_l1_0_l2_2.mp4" autoplay muted loop playsinline webkit-playsinline></video>
         <div class="j-overlay">$1$</div>
       </div>
 
@@ -415,51 +416,15 @@
 </div>
 
 <script>
-  async function syncAndPlayAllVideos() {
-    const videos = Array.from(document.querySelectorAll('video'));
-
+  // 確保瀏覽器自動播放所有影片
+  document.addEventListener("DOMContentLoaded", () => {
+    const videos = document.querySelectorAll('video');
     videos.forEach(v => {
-      v.muted = true;
-      v.defaultMuted = true;
-      v.pause();
-    });
-
-    const loadPromises = videos.map(v => {
-      return new Promise((resolve) => {
-        if (v.readyState >= 2) {
-          resolve();
-        } else {
-          v.addEventListener('canplay', () => resolve(), { once: true });
-          v.load();
-        }
+      v.play().catch(() => {
+        // 防止瀏覽器擋下靜音自動播放
       });
     });
-
-    await Promise.all(loadPromises);
-
-    videos.forEach(v => {
-      v.currentTime = 0;
-    });
-
-    const playPromises = videos.map(v => v.play());
-    
-    Promise.all(playPromises).catch(() => {
-      const forcePlayOnInteraction = () => {
-        videos.forEach(v => {
-          v.currentTime = 0;
-          v.play();
-        });
-      };
-      document.addEventListener('touchstart', forcePlayOnInteraction, { once: true });
-      document.addEventListener('click', forcePlayOnInteraction, { once: true });
-    });
-  }
-
-  if (document.readyState === 'complete') {
-    syncAndPlayAllVideos();
-  } else {
-    window.addEventListener('load', syncAndPlayAllVideos);
-  }
+  });
 </script>
 
 </body>
