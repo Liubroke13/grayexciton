@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>VVB Wave Animations Matrix</title>
   
   <!-- 配置 MathJax 3 (SVG 渲染引擎) -->
@@ -29,11 +29,21 @@
   </script>
 
   <style>
-    body {
-      font-family: 'Times New Roman', Times, serif;
+    /* 避免全域水平溢出阻擋滾動 */
+    html, body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
       background-color: #ffffff;
       color: #000000;
-      margin: 15px;
+      font-family: 'Times New Roman', Times, serif;
+      overflow-x: auto; /* 允許最外層水平滑動 */
+      -webkit-overflow-scrolling: touch; /* 讓 iOS 滑動更順暢 */
+    }
+
+    body {
+      padding: 15px;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -68,14 +78,16 @@
       justify-content: center;
       gap: 20px;
       flex-wrap: nowrap;
+      box-sizing: border-box;
     }
 
     .matrix-wrapper {
-      flex: 1;
-      min-width: 620px;
+      flex: 1 1 0;
+      min-width: 580px; /* 適度調整 min-width */
       display: flex;
       flex-direction: column;
       align-items: center;
+      box-sizing: border-box;
     }
 
     /* 針對 iOS Safari 最佳化的標題樣式 */
@@ -85,8 +97,8 @@
       margin-bottom: 8px;
       width: 100%;
       min-height: 2.8em;
-      display: block; /* 改為 block 避免 flex 在 iOS 上壓垮 SVG 寬度 */
-      overflow-x: auto; /* 預防手機版字體過大時撐爆頁面 */
+      display: block;
+      overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -97,6 +109,7 @@
       gap: 2px;
       background-color: #ffffff;
       width: 100%;
+      box-sizing: border-box;
     }
 
     .grid-cell {
@@ -243,6 +256,18 @@
       font-size: 0.95rem;
       text-align: center;
       margin-top: 8px;
+    }
+
+    /* 📱 行動裝置響應式優化 */
+    @media screen and (max-width: 1200px) {
+      .page-container {
+        flex-wrap: wrap; /* 寬度不足時自動改成上下疊放 (Left Matrix 在上，Right Matrix 在下) */
+        justify-content: center;
+      }
+      .matrix-wrapper {
+        min-width: 100%; /* 縮放到符合手機螢幕全寬 */
+        max-width: 650px;
+      }
     }
   </style>
 </head>
