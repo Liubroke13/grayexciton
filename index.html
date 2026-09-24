@@ -200,6 +200,7 @@
       border: 1px solid #000000;
     }
 
+    /* 🎯 更新右側 Colorbar 樣式以配合黑底 PRGn (翠綠-黑-洋紅紫) */
     .colorbar-graphic-yellow {
       width: 16px;
       flex-grow: 1;
@@ -208,9 +209,9 @@
       justify-content: center;
       align-items: center;
       background: linear-gradient(to bottom, 
-        #ffff00 0%, 
+        #19d959 0%, 
         #000000 50%, 
-        #800080 100%
+        #bf33d9 100%
       );
       border: 1px solid #000000;
     }
@@ -333,7 +334,7 @@
       <div class="j-overlay">$1$</div>
     </div>
 
-    <!-- COLORBAR GREEN -->
+    <!-- COLORBAR GREEN (左側) -->
     <div class="colorbar-wrapper" style="grid-column: 6; grid-row: 4 / span 2;">
       <div class="colorbar-tick">$1$</div>
       <div class="colorbar-graphic-green">
@@ -342,7 +343,7 @@
       <div class="colorbar-tick">$-1$</div>
     </div>
 
-    <!-- COLORBAR YELLOW -->
+    <!-- COLORBAR PURPLE-GREEN (右側新色帶) -->
     <div class="colorbar-wrapper" style="grid-column: 10; grid-row: 4 / span 2;">
       <div class="colorbar-tick">$1$</div>
       <div class="colorbar-graphic-yellow">
